@@ -45,7 +45,7 @@ dependencies {
     testImplementation libs.junit.junit
 }
 
-group = 'cz.zcu.kiv.md2odt'
+group = 'io.github.astrapi69'
 version = '1.0-SNAPSHOT'
 description = 'MD2odt'
 java.sourceCompatibility = JavaVersion.VERSION_1_8

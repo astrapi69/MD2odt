@@ -40,9 +40,9 @@ MD2odt is a easy to use library for converting Markdown to OpenDocument (*.odt*)
 Dependency:
 ```xml
 <dependency>
-    <groupId>com.github.abcBHM</groupId>
+    <groupId>io.github.astrapi69</groupId>
     <artifactId>MD2odt</artifactId>
-    <version>master-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 

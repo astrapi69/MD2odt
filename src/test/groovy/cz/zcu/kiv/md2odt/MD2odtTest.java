@@ -1,66 +1,51 @@
-package cz.zcu.kiv.md2odt
+package cz.zcu.kiv.md2odt;
 
-import org.junit.Ignore
-import org.junit.Test
+import org.junit.Ignore;
+import org.junit.Test;
 
-import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
-import java.nio.file.Paths
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
- *
- * @version 2017-04-29
  * @author Patrik Harag
+ * @version 2017-04-29
  */
-class MD2odtTest {
-
-    private static final Charset CHARSET = StandardCharsets.UTF_8
-
-    private static final String EXAMPLE_TXT = '/example.md'
-    private static final String EXAMPLE_ZIP = '/example.zip'
-    private static final String TEMPLATE = '/template.odt'
-
-    private static final String OUTPUT = "result.odt"
-
+public class MD2odtTest {
     @Test
-    @Ignore
-    void test() {
-        def md = System.class.getResourceAsStream(EXAMPLE_TXT)
-        def out = Paths.get(OUTPUT)
+//    @Ignore
+    public void test() throws IOException {
+        InputStream md = System.class.getResourceAsStream(EXAMPLE_TXT);
+        Path out = Paths.get(OUTPUT);
 
-        MD2odt.converter()
-                .setInput(md, CHARSET)
-                .setOutput(out)
-                .enableAllExtensions()
-                .convert()
+        MD2odt.converter().setInput(md, CHARSET).setOutput(out).enableAllExtensions().convert();
     }
 
     @Test
     @Ignore
-    void testWithTemplate() {
-        def md = System.class.getResourceAsStream(EXAMPLE_TXT)
-        def template = System.class.getResourceAsStream(TEMPLATE)
-        def out = Paths.get(OUTPUT)
+    public void testWithTemplate() throws IOException {
+        InputStream md = System.class.getResourceAsStream(EXAMPLE_TXT);
+        InputStream template = System.class.getResourceAsStream(TEMPLATE);
+        Path out = Paths.get(OUTPUT);
 
-        MD2odt.converter()
-                .setInput(md, CHARSET)
-                .setTemplate(template)
-                .setOutput(out)
-                .enableAllExtensions()
-                .convert()
+        MD2odt.converter().setInput(md, CHARSET).setTemplate(template).setOutput(out).enableAllExtensions().convert();
     }
 
     @Test
     @Ignore
-    void testFromZip() {
-        def zip = System.class.getResourceAsStream(EXAMPLE_ZIP)
-        def out = Paths.get(OUTPUT)
+    public void testFromZip() throws IOException {
+        InputStream zip = System.class.getResourceAsStream(EXAMPLE_ZIP);
+        Path out = Paths.get(OUTPUT);
 
-        MD2odt.converter()
-                .setInputZip(zip, CHARSET)
-                .setOutput(out)
-                .enableAllExtensions()
-                .convert()
+        MD2odt.converter().setInputZip(zip, CHARSET).setOutput(out).enableAllExtensions().convert();
     }
 
+    private static final Charset CHARSET = StandardCharsets.UTF_8;
+    private static final String EXAMPLE_TXT = "/example.md";
+    private static final String EXAMPLE_ZIP = "/example.zip";
+    private static final String TEMPLATE = "/template.odt";
+    private static final String OUTPUT = "result.odt";
 }

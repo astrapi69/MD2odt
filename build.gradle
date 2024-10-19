@@ -8,6 +8,7 @@ plugins {
     id 'java'
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
 }
 
 sourceSets {
@@ -20,48 +21,57 @@ sourceSets {
 
 repositories {
     mavenLocal()
+    mavenCentral()
+    /**
+     * This repository is intended for release versions
+     **/
     maven {
-        url = uri('https://repo.maven.apache.org/maven2/')
+        name "$projectRepositoriesReleasesName"
+        url "$projectRepositoriesReleasesRepoUrl"
+        mavenContent {
+            releasesOnly()
+        }
     }
-}
-
-dependencies {
-    api libs.org.codehaus.groovy.groovy.all
-    api libs.com.vladsch.flexmark.flexmark
-    api libs.com.vladsch.flexmark.flexmark.ext.autolink
-    api libs.com.vladsch.flexmark.flexmark.ext.emoji
-    api libs.com.vladsch.flexmark.flexmark.ext.gfm.strikethrough
-    api libs.com.vladsch.flexmark.flexmark.ext.superscript
-    api libs.com.vladsch.flexmark.flexmark.ext.gfm.tables
-    api libs.com.vladsch.flexmark.flexmark.ext.escaped.character
-    api libs.com.vladsch.flexmark.flexmark.ext.toc
-    api libs.com.vdurmont.emoji.java
-    api libs.org.jsoup.jsoup
-    api libs.org.apache.odftoolkit.simple.odf
-    api libs.org.apache.xmlgraphics.batik.codec
-    api libs.org.python.jython.standalone
-    api libs.org.pygments.pygments
-    api libs.log4j.log4j
-    testImplementation libs.junit.junit
-}
-
-group = 'io.github.astrapi69'
-version = '1.0-SNAPSHOT'
-description = 'MD2odt'
-java.sourceCompatibility = JavaVersion.VERSION_1_8
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
+    /**
+     * This repository is intended for snapshot versions that are previously deployed
+     * on the specified url for snapshots
+     **/
+    maven {
+        name "$projectRepositoriesSnapshotsName"
+        url "$projectRepositoriesSnapshotsRepoUrl"
+        mavenContent {
+            snapshotsOnly()
         }
     }
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+
+dependencies {
+    // Note: use of bundles...
+    api libs.bundles.api
+    testImplementation libs.bundles.test.implementation
 }
 
-tasks.withType(Javadoc) {
-    options.encoding = 'UTF-8'
-}
+group = "$groupPackage" as Object
+version = "$projectVersion" as Object
+description = "$rootProject.name"
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+
+apply from: "gradle/publishing.gradle"
+
+//
+//publishing {
+//    publications {
+//        maven(MavenPublication) {
+//            from(components.java)
+//        }
+//    }
+//}
+//
+//tasks.withType(JavaCompile) {
+//    options.encoding = 'UTF-8'
+//}
+//
+//tasks.withType(Javadoc) {
+//    options.encoding = 'UTF-8'
+//}
